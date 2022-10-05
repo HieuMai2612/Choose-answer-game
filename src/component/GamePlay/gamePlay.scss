@@ -1,0 +1,59 @@
+.game-container {
+  min-width: 500px !important;
+}
+
+.game-header {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  .game-count {
+    display: flex;
+  }
+}
+
+.game-body {
+  &-title {
+    margin-top: 20px;
+  }
+  &-match {
+    background-color: black;
+    color: white;
+    width: 150px;
+    height: 35px;
+    border-radius: 5px;
+  }
+  .player-name {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    &-change {
+      color: rgb(0, 203, 30);
+    }
+  }
+
+  &-choose {
+    &-form {
+      border: 2px solid black;
+      padding: 10px;
+      border-radius: 25px;
+      margin: 10px 0;
+    }
+  }
+}
+
+.game-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .btn-submit {
+    background-color: rgb(219, 70, 95);
+    color: white;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+  }
+}
