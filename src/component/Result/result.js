@@ -3,45 +3,48 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { questions, questionCount, saveResult, saveName1, name1, name2 } from '../../features/CreateSlice';
+import { useState, useDispatch } from 'react';
+import {
+    questions,
+    questionCount,
+    saveResult,
+    name1,
+    name2,
+    playerCount,
+    indexQuestion,
+    nextQuestion,
+    nextPlayer,
+    getPlayer
+} from '../../features/CreateSlice';
 
 const Result = () => {
+    const question = useSelector(questions);
+    const quesCount = useSelector(questionCount);
     const getName1 = useSelector(name1);
     const getName2 = useSelector(name2);
-    // const [indexName, setIndexName] = useState(0);
-    // // const results = useSelector(selectAllResult);
-    // const [text, setText] = useState('');
-
-    // const [questionNum, setQuestionNum] = useState(results[results.length - 1]?.matchId || 0);
-
-    // const questions = useSelector(selectAllQuestion);
+    const getIndexQuestion = useSelector(indexQuestion);
+    const getPlayerLength = useSelector(getPlayer);
+    const answer = question[getIndexQuestion]?.correct_answer;
 
     // const handleSearch = (e) => {
     //     setText(e.target.value)
     // }
 
-    // const matchResult = results.filter((match) => {
-    //     if (match.matchId === questionNum) {
-    //         return match;
-    //     }
-    // });
-    // const search = matchResult.filter((item) => item?.name?.includes(text));
 
-    // const tableItem = search.map((results, index) => {
-    //     return (
-    //         <tr key={index}>
-    //             <td>{index}</td>
-    //             <td>{results?.name}</td>
-    //             <td>00/11/2000</td>
-    //             <td>{results?.answer}</td>
-    //             <td>{results?.result}</td>
-    //             <td>{results?.result === 'yes' ? '1' : '0'}</td>
-    //         </tr>
-    //     );
-    // });
+    const tableItem = getPlayerLength.map((results, index) => {
+        return (
+            <tr key={index}>
+                <td>{index}</td>
+                <td>{results?.name}</td>
+                <td>00/11/2000</td>
+                <td>{results?.answer}</td>
+                <td>{results?.result}</td>
+                <td>{results?.result === 'yes' ? '1' : '0'}</td>
+            </tr>
+        );
+    });
 
-    // console.log(results);
+
 
     return (
         <>
