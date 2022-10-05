@@ -7,10 +7,11 @@ import { getAnswer, saveName1, saveName2 } from '../../features/CreateSlice';
 
 const GamePlay = () => {
     const questions = useSelector(getAnswer);
-    const [ques, setQues] = useState(questions[questions])
     const [answer, setAnser] = useState('');
 
-    console.log(questions[questions])
+    const [ques, setQues] = useState(questions[questions.length - 1])
+
+    console.log(ques, "ques")
 
 
     return (
@@ -21,7 +22,7 @@ const GamePlay = () => {
             </div>
             <div className='game-body'>
                 <div className='game-body-question'>
-                    {getAnswer[getAnswer]?.results}
+                    {questions[questions.length - 1]}
                 </div>
 
                 <div className='game-body-choose'>

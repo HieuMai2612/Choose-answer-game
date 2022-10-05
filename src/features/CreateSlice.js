@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 export const getAnswer = createAsyncThunk("answer/getAnswer", async () => {
     const res = await axios("https://opentdb.com/api.php?amount=2&type=multiple");
-    console.log(res.data)
     return res.data.results;
 });
 
@@ -41,6 +40,6 @@ export const counterSlice = createSlice({
 
 export const { saveName1, saveName2 } = counterSlice.actions;
 export const name1 = (state) => state.counter.name1;
-export const name2 = (state) => state.counter.name1;
+export const name2 = (state) => state.counter.name2;
 
 export default counterSlice.reducer;
