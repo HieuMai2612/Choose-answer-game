@@ -9,6 +9,7 @@ const initialState = {
     name1: "",
     name2: "",
     questions: [],
+    questionCount: 2,
 };
 
 export const counterSlice = createSlice({
@@ -41,5 +42,7 @@ export const counterSlice = createSlice({
 export const { saveName1, saveName2 } = counterSlice.actions;
 export const name1 = (state) => state.counter.name1;
 export const name2 = (state) => state.counter.name2;
+export const questions = (state) => state.counter.questions;
+export const questionCount = (state) => state.counter.questionCount;
 
 export default counterSlice.reducer;

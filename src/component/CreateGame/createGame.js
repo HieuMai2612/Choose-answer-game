@@ -19,6 +19,7 @@ const CreateGame = () => {
 
     const handleChange = (event) => {
         setName(event.target.value);
+        console.log(name)
     }
 
     const handleChangeP2 = (event) => {
@@ -36,7 +37,7 @@ const CreateGame = () => {
         setShow(false);
         setTimeout(() => {
             navigate("../game-screen", { replace: true });
-        }, 500)
+        }, 100)
     };
 
 
