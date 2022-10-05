@@ -8,19 +8,18 @@ import { getAnswer, questions, questionCount } from '../../features/CreateSlice'
 const GamePlay = () => {
     const question = useSelector(questions);
     const quesCount = useSelector(questionCount);
-    const [answer, setAnswer] = useState(question[question.length - 1]?.correct_answer || '');
-
-    const [answerIncorrect, setAnswerIncorrect] = useState(question[question.length - 1]?.incorrect_answers || '');
-    console.log(answerIncorrect, "question")
+    const [answer, setAnswer] = useState(question[question.length - 2]?.correct_answer);
+    const [answerIncorrect, setAnswerIncorrect] = useState(question[question.length - 2]?.incorrect_answers);
     const [checkAnswer, setCheckAnswer] = useState('');
-    const [ques, setQues] = useState(question[question.length - 1]?.question || 'No question');
+    const [chooseAnswer, setChooseAnswer] = useState('')
+    const [ques, setQues] = useState(question[question.length - 2]?.question);
 
-    const handleChoose = () => {
-        checkAnswer === question[question.length - 1].correct_answer ? console.log("correct") : console.log("incorrect");
+
+    const handleChoose = (e) => {
+        setCheckAnswer(e.target.value);
+        chooseAnswer === answer ? setCheckAnswer('correct') : setCheckAnswer("incorrect");
+        console.log(checkAnswer)
     }
-
-
-
 
     const answerItems = answerIncorrect.map((item) => {
         return (
@@ -30,25 +29,12 @@ const GamePlay = () => {
                     type={'radio'}
                     onClick={handleChoose}
                 />
-                <div onClick={handleChoose} key={item}>{item}</div>
+                <div key={item}>{item}</div>
             </div>
 
         );
     });
 
-    // const answerCorrect = answer.map((item) => {
-    //     return (
-    //         <Form className='game-body-choose-big-form' >
-    //             <div className="game-body-choose-form">
-    //                 <Form.Check
-    //                     name="group1"
-    //                     type={'radio'}
-    //                 />
-    //                 <div>{item}</div>
-    //             </div>
-    //         </Form>
-    //     );
-    // });
 
 
     const HandleSubmit = () => {
@@ -84,7 +70,7 @@ const GamePlay = () => {
                                 onClick={handleChoose}
                             />
                             <div>
-                                {question[question.length - 1].correct_answer}
+                                {question[question.length - 2].correct_answer}
                             </div>
                         </div>
                     </Form>
