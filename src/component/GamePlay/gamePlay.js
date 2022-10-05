@@ -38,12 +38,7 @@ const GamePlay = () => {
     const [submitName1, setSubmitName1] = useState('');
 
     const playerCounts = useSelector(playerCount);
-
-
-    console.log(playerCounts);
     const dispatch = useDispatch();
-
-
 
     const handleSubmit = () => {
         dispatch(saveResult({
@@ -55,7 +50,6 @@ const GamePlay = () => {
         if (playerCounts !== getPlayer.length - 1) {
             setShowBtnNextPlay(false);
             setShowBtnNextGame(true);
-            console.log("d")
         }
         if (playerCounts === getPlayer.length - 1) {
             setShowBtnSubmit(true);
@@ -71,11 +65,7 @@ const GamePlay = () => {
         if (playerCounts !== getPlayer.length - 1 && getIndexQuestion === 1) {
             setShowBtnNextGame(false);
         }
-
-
         setShowBtnSubmit(false);
-        console.log(playerCounts, 'plcount')
-        console.log(getPlayer.length - 1, 'f')
     }
 
     const onNextPlayer = () => {
