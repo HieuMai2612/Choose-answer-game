@@ -29,13 +29,15 @@ const GamePlay = () => {
     const [showBtnNextPlay, setShowBtnNextPlay] = useState(false);
     const [showBtnNextGame, setShowBtnNextGame] = useState(false);
     const getPlayerLength = useSelector(getPlayer);
-    const [answerResult, setAnswerResult] = useState('');
     const answer = question[getIndexQuestion]?.correct_answer;
     const answerIncorrect = question[getIndexQuestion]?.incorrect_answers;
     const [checkAnswer, setCheckAnswer] = useState('');
     const [resultAnswer, setResultAnswer] = useState('');
     const ques = question[getIndexQuestion]?.question;
     const [submitName1, setSubmitName1] = useState('');
+
+    //answer of user
+    const [answerResult, setAnswerResult] = useState('');
 
     const playerCounts = useSelector(playerCount);
     const dispatch = useDispatch();
@@ -44,7 +46,8 @@ const GamePlay = () => {
         dispatch(saveResult({
             players: getPlayerLength[playerCounts],
             result: resultAnswer,
-            answerResult
+            apiResult: answer,
+            answerUser: answerResult
         }));
 
         if (playerCounts !== getPlayer.length - 1) {

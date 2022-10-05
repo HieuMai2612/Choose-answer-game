@@ -3,46 +3,37 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { useState, useDispatch } from 'react';
+import { useState, } from 'react';
 import {
-    questions,
-    questionCount,
-    saveResult,
-    name1,
-    name2,
-    playerCount,
-    indexQuestion,
-    nextQuestion,
-    nextPlayer,
-    getPlayer
+    results
 } from '../../features/CreateSlice';
 
 const Result = () => {
-    const question = useSelector(questions);
-    const quesCount = useSelector(questionCount);
-    const getName1 = useSelector(name1);
-    const getName2 = useSelector(name2);
-    const getIndexQuestion = useSelector(indexQuestion);
-    const getPlayerLength = useSelector(getPlayer);
-    const answer = question[getIndexQuestion]?.correct_answer;
-
+    const result = useSelector(results);
+    const lisResult = Object.values(result);
+    const [search, setSearch] = useState("");
+    const filterPosts = lisResult.filter((result) =>
+        result.namePlayer.toLowerCase().includes(search.toLowerCase())
+    );
     // const handleSearch = (e) => {
     //     setText(e.target.value)
     // }
 
 
-    const tableItem = getPlayerLength.map((results, index) => {
-        return (
-            <tr key={index}>
-                <td>{index}</td>
-                <td>{results?.name}</td>
-                <td>00/11/2000</td>
-                <td>{results?.answer}</td>
-                <td>{results?.result}</td>
-                <td>{results?.result === 'yes' ? '1' : '0'}</td>
-            </tr>
-        );
-    });
+    // const tableItem = getPlayerLength.map((results, index) => {
+    //     return (
+    //         <tr key={index}>
+    //             <td>{index}</td>
+    //             <td>{results?.name}</td>
+    //             <td>00/11/2000</td>
+    //             <td>{results?.answer}</td>
+    //             <td>{results?.result}</td>
+    //             <td>{results?.result === 'yes' ? '1' : '0'}</td>
+    //         </tr>
+    //     );
+    // });
+
+
 
 
 
@@ -71,7 +62,28 @@ const Result = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* {tableItem} */}
+                    {
+                        filterPosts.map((result, index) => (
+                            <tr
+                                key={index}
+                                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                            >
+                                <td>{result.namePlayer}</td>
+                                <td>
+                                    {result.answerPlayer.map((item) => (
+                                        <div>{item}</div>
+                                    ))}
+                                </td>
+                                <td>
+                                    {result.answerApi.map((item) => (
+                                        <div>{item}</div>
+                                    ))}
+                                </td>
+                                <td>{result.score}</td>
+                                <td>10s</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
 
             </Table>
