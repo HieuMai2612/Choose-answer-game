@@ -7,7 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, } from 'react-redux';
 import Spinner from 'react-bootstrap/Spinner';
 
-import { getAnswer, saveName1, saveName2 } from '../../features/CreateSlice';
+import {
+    getAnswer,
+    saveName1,
+    saveName2,
+    savePlayers
+
+} from '../../features/CreateSlice';
 
 const CreateGame = () => {
     const navigate = useNavigate();
@@ -31,13 +37,12 @@ const CreateGame = () => {
         e.preventDefault();
         dispatch(saveName1(name));
         dispatch(saveName2(nameP2));
-        dispatch(getAnswer());
+
+        dispatch(savePlayers());
         setName('');
         setNameP2('');
         setShow(false);
-        setTimeout(() => {
-            navigate("../game-screen", { replace: true });
-        }, 100)
+        dispatch(getAnswer()).then(() => navigate("../game-screen"));
     };
 
 

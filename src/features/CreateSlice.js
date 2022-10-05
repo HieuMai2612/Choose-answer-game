@@ -10,6 +10,11 @@ const initialState = {
     name2: "",
     questions: [],
     questionCount: 2,
+    results: [],
+    score: 0,
+    playerCount: 0,
+    indexQuestion: 0,
+    getPlayer: [],
 };
 
 export const counterSlice = createSlice({
@@ -22,27 +27,35 @@ export const counterSlice = createSlice({
         saveName2: (state, action) => {
             state.name2 = action.payload;
         },
+        saveResult: (state, action) => {
+            state.results.push(action.payload);
+        },
+        nextQuestion: (state, action) => {
+            state.indexQuestion += 1;
+        },
+        savePlayers: (state, action) => {
+            state.getPlayer = [state.name1, state.name2];
+        },
+        nextPlayer: (state, action) => {
+            state.playerCount += 1;
+        }
     },
 
     extraReducers: (builder) => {
         builder
-            // .addCase(incrementAsync.pending, (state) => {
-            // state.status = "loading";
-            // })
-            // .addCase(incrementAsync.fulfilled, (state, action) => {
-            // state.status = "idle";
-            // state.value += action.payload;
-            // });
             .addCase(getAnswer.fulfilled, (state, action) => {
                 state.questions = (action.payload);
             });
     },
 });
 
-export const { saveName1, saveName2 } = counterSlice.actions;
+export const { saveName1, saveName2, saveResult, nextQuestion, savePlayers, nextPlayer } = counterSlice.actions;
 export const name1 = (state) => state.counter.name1;
 export const name2 = (state) => state.counter.name2;
 export const questions = (state) => state.counter.questions;
 export const questionCount = (state) => state.counter.questionCount;
+export const playerCount = (state) => state.counter.playerCount;
+export const indexQuestion = (state) => state.counter.indexQuestion;
+export const getPlayer = (state) => state.counter.getPlayer;
 
 export default counterSlice.reducer;
