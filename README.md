@@ -1,4 +1,4 @@
-### After download source code
+### checkout main-1 branch and download source
 
 npm i
 
