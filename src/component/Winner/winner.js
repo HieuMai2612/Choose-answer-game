@@ -31,8 +31,9 @@ const Winner = () => {
             <img src={logo} />
             <div className='winner-game-title'>
                 {getLisResult[0].score > getLisResult[1].score
-                    ? `Winner : ${getLisResult[0].namePlayer}`
-                    : `Winner : ${getLisResult[1].namePlayer}`}
+                    ? `Winner : ${getLisResult[0].namePlayer}` : `Winner : ${getLisResult[1].namePlayer}`}
+                {
+                }
             </div>
         </div>
     );

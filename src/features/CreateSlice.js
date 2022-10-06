@@ -32,7 +32,6 @@ export const counterSlice = createSlice({
             // console.log(action.payload)
 
             const data = action.payload;
-            console.log("data", data)
             if (!state.results[data.players]) {
                 state.results[data.players] = {
                     namePlayer: '',
@@ -45,7 +44,6 @@ export const counterSlice = createSlice({
             state.results[data.players].namePlayer = data.players;
             state.results[data.players].answerPlayer.push(data.answerUser);
             state.results[data.players].answerApi.push(data.apiResult);
-            console.log(state.results[data.players])
             if (data.answerUser === data.apiResult) {
                 state.results[data.players].score = state.results[data.players].score + 1;
             }

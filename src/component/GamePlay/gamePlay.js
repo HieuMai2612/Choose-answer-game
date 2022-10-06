@@ -42,30 +42,30 @@ const GamePlay = () => {
 
     // set time counter 
     const [time, setTime] = useState(10);
+    // set reset checkbox after change player or game 
+    const [checkBox, setCheckBox] = useState(false);
 
+    const handleChoose = (e) => {
+        setCheckAnswer(e.target.value);
+        setAnswerResult(e.target.value);
+    }
     useEffect(() => {
         let interval = null;
-        if (time !== 0) {
-            interval = setInterval(() => {
-                setTime(time - 1);
-                console.log("countdown", time);
-            }, 1000);
-        } else if (time === 0 && playerCounts === getPlayer.length - 1) {
-            console.log("clear", time);
-            dispatch(saveResult({
-                players: getPlayerLength[playerCounts],
-                result: resultAnswer,
-                apiResult: answer,
-                answerUser: answerResult
-            }));
-            dispatch(nextPlayer());
-            setShowBtnSubmit(false);
-            setShowBtnNextPlay(false);
-            setShowBtnNextGame(true);
+        interval = setInterval(() => {
+            setTime(time - 1);
+        }, 1000);
+        if (time === 0) {
+            handleSubmit()
             clearInterval(interval);
+            setTime(null);
         }
+        // if (showBtnNextGame === true) {
+        //     setTime(null);
+        //     clearInterval(interval);
+        // }
         return () => clearInterval(interval);
     }, [time])
+
 
     //answer of user
     const [answerResult, setAnswerResult] = useState('');
@@ -73,11 +73,8 @@ const GamePlay = () => {
     const playerCounts = useSelector(playerCount);
     const dispatch = useDispatch();
 
-    const [chooseBtn, setChooseBtn] = useState(true);
-
     const handleSubmit = () => {
         setTime(10);
-
         dispatch(saveResult({
             players: getPlayerLength[playerCounts],
             result: resultAnswer,
@@ -95,16 +92,19 @@ const GamePlay = () => {
             setShowBtnNextGame(false);
         }
 
-
         if (playerCounts !== getPlayer.length - 1 && getIndexQuestion === question.length - 1) {
             setShowBtnNextGame(true);
         }
 
         if (playerCounts !== getPlayer.length - 1 && getIndexQuestion === 1) {
             setShowBtnNextGame(false);
+            console.log("d");
         }
+
         setShowBtnSubmit(false);
+        setCheckBox(prevState => !prevState)
     }
+
 
     const onNextPlayer = () => {
         dispatch(nextPlayer());
@@ -112,7 +112,7 @@ const GamePlay = () => {
         setShowBtnNextPlay(false);
         setShowBtnSubmit(true);
         setShowBtnNextGame(false);
-        setChooseBtn(false);
+        setCheckBox(false)
     };
 
 
@@ -125,13 +125,10 @@ const GamePlay = () => {
         dispatch(nextQuestion());
         setShowBtnNextGame(false);
         setShowBtnSubmit(true);
-
+        setCheckBox(false)
     }
 
-    const handleChoose = (e) => {
-        setCheckAnswer(e.target.value);
-        setAnswerResult(e.target.value);
-    }
+
 
     useEffect((e) => {
         if (checkAnswer === answer) {
@@ -152,7 +149,7 @@ const GamePlay = () => {
                     type={'radio'}
                     name="group1"
                     label={item}
-                    chooseBtn={chooseBtn}
+                    key={checkBox}
                     value={item} onChange={(e) => handleChoose(e)}
                 />
             </div>
@@ -169,19 +166,14 @@ const GamePlay = () => {
                 <div className='game-body-question'>
                     Question:   {ques}
                 </div>
-
                 <div className='game-body-choose'>
-
                     <Form className='game-body-choose-big-form' >
                         {answerItems}
                     </Form>
                 </div>
-
             </div>
 
             <div className='game-footer'>
-
-
                 {showBtnSubmit && <Button onClick={handleSubmit}
                     // disabled={isDisable}
                     variant="outline-dark" >Submit</Button>}
