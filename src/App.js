@@ -8,6 +8,7 @@ import CreateGame from "./component/CreateGame/createGame";
 import GamePlay from "./component/GamePlay/gamePlay";
 import Result from "./component/Result/result";
 import StartGame from "./component/StartGame/startGame";
+import Winner from "./component/Winner/winner";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/create-game" element={<CreateGame />} />
             <Route path="/game-screen" element={<GamePlay />} />
             <Route path="/result" element={<Result />} />
+            <Route path="/winner" element={<Winner />} />
           </Routes>
 
         </Router>

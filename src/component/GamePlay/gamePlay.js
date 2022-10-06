@@ -14,7 +14,8 @@ import {
     indexQuestion,
     nextQuestion,
     nextPlayer,
-    getPlayer
+    getPlayer,
+    countQuestion
 } from '../../features/CreateSlice';
 
 
@@ -22,6 +23,7 @@ import {
 const GamePlay = () => {
     const question = useSelector(questions);
     const quesCount = useSelector(questionCount);
+    const countQuestions = useSelector(countQuestion);
     const getName1 = useSelector(name1);
     const getName2 = useSelector(name2);
     const getIndexQuestion = useSelector(indexQuestion);
@@ -31,10 +33,39 @@ const GamePlay = () => {
     const getPlayerLength = useSelector(getPlayer);
     const answer = question[getIndexQuestion]?.correct_answer;
     const answerIncorrect = question[getIndexQuestion]?.incorrect_answers;
+    // checkAnswer for check if === answerApi => correct : incorrect
     const [checkAnswer, setCheckAnswer] = useState('');
     const [resultAnswer, setResultAnswer] = useState('');
     const ques = question[getIndexQuestion]?.question;
     const [submitName1, setSubmitName1] = useState('');
+
+
+    // set time counter 
+    const [time, setTime] = useState(10);
+
+    useEffect(() => {
+        let interval = null;
+        if (time !== 0) {
+            interval = setInterval(() => {
+                setTime(time - 1);
+                console.log("countdown", time);
+            }, 1000);
+        } else if (time === 0 && playerCounts === getPlayer.length - 1) {
+            console.log("clear", time);
+            dispatch(saveResult({
+                players: getPlayerLength[playerCounts],
+                result: resultAnswer,
+                apiResult: answer,
+                answerUser: answerResult
+            }));
+            dispatch(nextPlayer());
+            setShowBtnSubmit(false);
+            setShowBtnNextPlay(false);
+            setShowBtnNextGame(true);
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [time])
 
     //answer of user
     const [answerResult, setAnswerResult] = useState('');
@@ -42,7 +73,11 @@ const GamePlay = () => {
     const playerCounts = useSelector(playerCount);
     const dispatch = useDispatch();
 
+    const [chooseBtn, setChooseBtn] = useState(true);
+
     const handleSubmit = () => {
+        setTime(10);
+
         dispatch(saveResult({
             players: getPlayerLength[playerCounts],
             result: resultAnswer,
@@ -73,23 +108,28 @@ const GamePlay = () => {
 
     const onNextPlayer = () => {
         dispatch(nextPlayer());
+        setTime(10);
         setShowBtnNextPlay(false);
         setShowBtnSubmit(true);
         setShowBtnNextGame(false);
+        setChooseBtn(false);
     };
 
 
     const onNextGame = () => {
         getName1 ? setSubmitName1(true) : setSubmitName1(false);
+        setTime(10);
+        // if (getIndexQuestion === question.length - 1 && time === 0) {
+        //     dispatch(nextQuestion());
+        // }
         dispatch(nextQuestion());
         setShowBtnNextGame(false);
         setShowBtnSubmit(true);
+
     }
 
-
-
     const handleChoose = (e) => {
-        setCheckAnswer(e.target.value)
+        setCheckAnswer(e.target.value);
         setAnswerResult(e.target.value);
     }
 
@@ -112,6 +152,7 @@ const GamePlay = () => {
                     type={'radio'}
                     name="group1"
                     label={item}
+                    chooseBtn={chooseBtn}
                     value={item} onChange={(e) => handleChoose(e)}
                 />
             </div>
@@ -122,7 +163,7 @@ const GamePlay = () => {
         <div className='game-container'>
             <div className='game-header'>
                 <div className='game-count-ques'>{quesCount} questions left</div>
-                <div className='game-count-time'>time remaing 10</div>
+                <div className='game-count-time'>time remaing {time}</div>
             </div>
             <div className='game-body'>
                 <div className='game-body-question'>

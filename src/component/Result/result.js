@@ -15,41 +15,21 @@ const Result = () => {
     const filterPosts = lisResult.filter((result) =>
         result.namePlayer.toLowerCase().includes(search.toLowerCase())
     );
-    // const handleSearch = (e) => {
-    //     setText(e.target.value)
-    // }
-
-
-    // const tableItem = getPlayerLength.map((results, index) => {
-    //     return (
-    //         <tr key={index}>
-    //             <td>{index}</td>
-    //             <td>{results?.name}</td>
-    //             <td>00/11/2000</td>
-    //             <td>{results?.answer}</td>
-    //             <td>{results?.result}</td>
-    //             <td>{results?.result === 'yes' ? '1' : '0'}</td>
-    //         </tr>
-    //     );
-    // });
-
-
-
-
 
     return (
         <>
             <div className='game-header'>
                 <div className='game-title'>Result Game</div>
-                <Link to="/game-screen">
+                <Link to="/winner">
                     <Button className='history-btn' variant="outline-dark">Finally</Button>
                 </Link>
             </div>
             <Form.Control
+                value={search}
                 type="text"
                 name="name"
                 className="history-search"
-            // onChange={handleSearch}
+                onChange={(e) => setSearch(e.target.value)}
             />
             <Table striped bordered hover>
                 <thead>
