@@ -15,19 +15,23 @@ import {
     nextQuestion,
     nextPlayer,
     getPlayer,
-    getTotalTime,
+    countQuestion,
+    totalTime, getTotalTime,
 } from '../../features/CreateSlice';
 import Spinner from 'react-bootstrap/Spinner';
 
 const GamePlay = () => {
+    const getTime = useSelector(totalTime);
     const question = useSelector(questions);
     const quesCount = useSelector(questionCount);
+    const countQuestions = useSelector(countQuestion);
     const getName1 = useSelector(name1);
     const getName2 = useSelector(name2);
     const getIndexQuestion = useSelector(indexQuestion);
     const [showBtnSubmit, setShowBtnSubmit] = useState(true);
     const [showBtnNextPlay, setShowBtnNextPlay] = useState(false);
     const [showBtnNextGame, setShowBtnNextGame] = useState(false);
+    const [showBtnView, setShowBtnView] = useState(false);
     const getPlayerLength = useSelector(getPlayer);
     const answer = question[getIndexQuestion]?.correct_answer;
     const answerIncorrect = question[getIndexQuestion]?.incorrect_answers;
@@ -68,7 +72,7 @@ const GamePlay = () => {
             handleSubmit();
             clearInterval(interval);
         }
-        if (playerCounts === getPlayer.length && getIndexQuestion === question.length - 1) {
+        if (playerCounts === getPlayer.length && getIndexQuestion === question.length - 1 && time === 0) {
             setTime(0)
             clearInterval(interval)
         }
@@ -111,9 +115,14 @@ const GamePlay = () => {
         }
 
         if (playerCounts !== getPlayer.length - 1 && getIndexQuestion === 1) {
+            setShowBtnView(true)
             setShowBtnNextGame(false);
         }
         setShowBtnSubmit(false);
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
         setCheckBox(prevState => !prevState)
     }
 
@@ -190,17 +199,17 @@ const GamePlay = () => {
             </div>
 
             <div className='game-footer'>
-                {loading && <Spinner animation="border" role="status">
+                {loading && <Spinner Spinner animation="border" role="status">
                 </Spinner>}
-                {showBtnSubmit && <Button onClick={handleSubmit}
+                {showBtnSubmit && !loading && <Button onClick={handleSubmit}
                     // disabled={isDisable}
                     variant="outline-dark" >Submit</Button>}
-                {showBtnNextPlay &&
+                {showBtnNextPlay && !loading &&
                     <Button className="btn-player" variant="primary" onClick={onNextPlayer} >
                         Next player
                     </Button>
                 }
-                {showBtnNextGame &&
+                {showBtnNextGame && !loading &&
                     < Button className="btn-player" variant="primary" onClick={onNextGame} >
                         Next game
                     </Button>
@@ -212,11 +221,13 @@ const GamePlay = () => {
                         </Button>
                     </Link>
                 } */}
-                <Link to="/result">
-                    <Button variant="outline-dark" className='btn-result '>
-                        ViewResult
-                    </Button>
-                </Link>
+                {showBtnView && !loading &&
+                    <Link to="/result">
+                        <Button variant="outline-dark" className='btn-result '>
+                            ViewResult
+                        </Button>
+                    </Link>
+                }
             </div>
         </div >
     );

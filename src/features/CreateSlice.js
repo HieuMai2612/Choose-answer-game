@@ -34,6 +34,7 @@ export const counterSlice = createSlice({
             // console.log(action.payload)
 
             const data = action.payload;
+            console.log(data)
             if (!state.results[data.players]) {
                 state.results[data.players] = {
                     namePlayer: '',
