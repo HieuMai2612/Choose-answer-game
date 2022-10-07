@@ -9,14 +9,14 @@ const StartGame = () => {
 
     return (
         <div className="start-game">
-            <img src={logo} />
+            <img src={logo} alt='' />
             <div className='title-game'>FUNNY GAME</div>
             <Link to="/create-game">
                 <Button variant="outline-dark"  >
                     Start Game
                 </Button>
             </Link>
-        </div>
+        </div >
     );
 };
 

@@ -14,6 +14,8 @@ const initialState = {
     playerCount: 0,
     indexQuestion: 0,
     getPlayer: [],
+    totalTime: [],
+    time: 5,
 };
 
 export const counterSlice = createSlice({
@@ -38,17 +40,17 @@ export const counterSlice = createSlice({
                     answerPlayer: [],
                     answerApi: [],
                     score: 0,
+                    time: []
                 };
             }
 
             state.results[data.players].namePlayer = data.players;
             state.results[data.players].answerPlayer.push(data.answerUser);
             state.results[data.players].answerApi.push(data.apiResult);
+            state.results[data.players].time.push(data.timePlay);
             if (data.answerUser === data.apiResult) {
                 state.results[data.players].score = state.results[data.players].score + 1;
             }
-
-
         },
         nextQuestion: (state, action) => {
             state.indexQuestion += 1;
@@ -68,7 +70,11 @@ export const counterSlice = createSlice({
         },
         countQuestion: (state, action) => {
             state.questionCount -= 1;
+        },
+        getTotalTime: (state, action) => {
+            state.totalTime.push(action.payload);
         }
+
     },
 
     extraReducers: (builder) => {
@@ -79,7 +85,15 @@ export const counterSlice = createSlice({
     },
 });
 
-export const { saveName1, saveName2, saveResult, nextQuestion, savePlayers, nextPlayer, countQuestion } = counterSlice.actions;
+export const {
+    saveName1,
+    saveName2,
+    saveResult,
+    nextQuestion,
+    savePlayers,
+    nextPlayer,
+    countQuestion,
+    getTotalTime } = counterSlice.actions;
 export const name1 = (state) => state.counter.name1;
 export const name2 = (state) => state.counter.name2;
 export const questions = (state) => state.counter.questions;
@@ -88,5 +102,8 @@ export const playerCount = (state) => state.counter.playerCount;
 export const indexQuestion = (state) => state.counter.indexQuestion;
 export const getPlayer = (state) => state.counter.getPlayer;
 export const results = (state) => state.counter.results;
+export const totalTime = (state) => state.counter.totalTime;
+export const time = (state) => state.counter.time;
+
 
 export default counterSlice.reducer;

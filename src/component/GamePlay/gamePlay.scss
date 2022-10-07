@@ -8,12 +8,24 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  .game-count {
+  .game-count-time {
     display: flex;
+    &-number {
+      width: 45px;
+      line-height: 40px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 25px;
+      border: 1px solid #000;
+    }
   }
 }
 
 .game-body {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 15px;
+  margin: 10px 0;
   &-title {
     margin-top: 20px;
   }
@@ -35,9 +47,9 @@
 
   &-choose {
     &-form {
-      border: 2px solid black;
+      border: 1px solid black;
       padding: 10px;
-      border-radius: 25px;
+      border-radius: 5px;
       margin: 10px 0;
     }
   }

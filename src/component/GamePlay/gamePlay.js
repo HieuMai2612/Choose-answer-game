@@ -15,15 +15,13 @@ import {
     nextQuestion,
     nextPlayer,
     getPlayer,
-    countQuestion
+    getTotalTime,
 } from '../../features/CreateSlice';
-
-
+import Spinner from 'react-bootstrap/Spinner';
 
 const GamePlay = () => {
     const question = useSelector(questions);
     const quesCount = useSelector(questionCount);
-    const countQuestions = useSelector(countQuestion);
     const getName1 = useSelector(name1);
     const getName2 = useSelector(name2);
     const getIndexQuestion = useSelector(indexQuestion);
@@ -38,10 +36,11 @@ const GamePlay = () => {
     const [resultAnswer, setResultAnswer] = useState('');
     const ques = question[getIndexQuestion]?.question;
     const [submitName1, setSubmitName1] = useState('');
-
+    //loading page
+    const [loading, setLoading] = useState(false);
 
     // set time counter 
-    const [time, setTime] = useState(10);
+    const [time, setTime] = useState(5);
     // set reset checkbox after change player or game 
     const [checkBox, setCheckBox] = useState(false);
 
@@ -50,21 +49,34 @@ const GamePlay = () => {
         setAnswerResult(e.target.value);
     }
     useEffect(() => {
-        let interval = null;
-        interval = setInterval(() => {
-            setTime(time - 1);
+        const interval = setInterval(() => {
+            setTime((prev) => prev - 1);
         }, 1000);
         if (time === 0) {
-            handleSubmit()
             clearInterval(interval);
-            setTime(null);
         }
-        // if (showBtnNextGame === true) {
-        //     setTime(null);
-        //     clearInterval(interval);
-        // }
+        if (playerCounts === getPlayer.length - 1 && time === 0) {
+            handleSubmit();
+            onNextPlayer();
+            clearInterval(interval);
+        }
+        if (playerCounts === getPlayer.length && showBtnNextGame === true && quesCount === 2 && time === 0) {
+            onNextGame();
+            clearInterval(interval);
+        }
+        else if (playerCounts === getPlayer.length && time === 0) {
+            handleSubmit();
+            clearInterval(interval);
+        }
+        if (playerCounts === getPlayer.length && getIndexQuestion === question.length - 1) {
+            setTime(0)
+            clearInterval(interval)
+        }
         return () => clearInterval(interval);
     }, [time])
+
+    // getPlayer.length  = 1
+    // question.length = 2
 
 
     //answer of user
@@ -74,14 +86,16 @@ const GamePlay = () => {
     const dispatch = useDispatch();
 
     const handleSubmit = () => {
-        setTime(10);
+        setTime(5);
+        dispatch(getTotalTime(time));
+        setShowBtnNextPlay(true)
         dispatch(saveResult({
             players: getPlayerLength[playerCounts],
             result: resultAnswer,
             apiResult: answer,
-            answerUser: answerResult
+            answerUser: answerResult,
+            timePlay: time,
         }));
-
         if (playerCounts !== getPlayer.length - 1) {
             setShowBtnNextPlay(false);
             setShowBtnNextGame(true);
@@ -98,18 +112,16 @@ const GamePlay = () => {
 
         if (playerCounts !== getPlayer.length - 1 && getIndexQuestion === 1) {
             setShowBtnNextGame(false);
-            console.log("d");
         }
-
         setShowBtnSubmit(false);
         setCheckBox(prevState => !prevState)
     }
 
 
     const onNextPlayer = () => {
-        dispatch(nextPlayer());
-        setTime(10);
+        setTime(5);
         setShowBtnNextPlay(false);
+        dispatch(nextPlayer());
         setShowBtnSubmit(true);
         setShowBtnNextGame(false);
         setCheckBox(false)
@@ -118,10 +130,7 @@ const GamePlay = () => {
 
     const onNextGame = () => {
         getName1 ? setSubmitName1(true) : setSubmitName1(false);
-        setTime(10);
-        // if (getIndexQuestion === question.length - 1 && time === 0) {
-        //     dispatch(nextQuestion());
-        // }
+        setTime(5);
         dispatch(nextQuestion());
         setShowBtnNextGame(false);
         setShowBtnSubmit(true);
@@ -160,13 +169,20 @@ const GamePlay = () => {
         <div className='game-container'>
             <div className='game-header'>
                 <div className='game-count-ques'>{quesCount} questions left</div>
-                <div className='game-count-time'>time remaing {time}</div>
+                <div className='game-count-time'>Time remaing
+                    <span className='game-count-time-number'>
+                        {time}
+                    </span>
+                </div>
             </div>
             <div className='game-body'>
                 <div className='game-body-question'>
                     Question:   {ques}
                 </div>
                 <div className='game-body-choose'>
+                    <div className='game-body-name'>
+                        Name : {playerCounts === getPlayer.length - 1 ? getName1 : getName2}
+                    </div>
                     <Form className='game-body-choose-big-form' >
                         {answerItems}
                     </Form>
@@ -174,6 +190,8 @@ const GamePlay = () => {
             </div>
 
             <div className='game-footer'>
+                {loading && <Spinner animation="border" role="status">
+                </Spinner>}
                 {showBtnSubmit && <Button onClick={handleSubmit}
                     // disabled={isDisable}
                     variant="outline-dark" >Submit</Button>}

@@ -17,13 +17,14 @@ const Result = () => {
     );
 
     return (
-        <>
-            <div className='game-header'>
-                <div className='game-title'>Result Game</div>
+        <div className='result-page'>
+            <div className='result-page-header'>
+                <div className='result-page-header-title'>Result Game</div>
                 <Link to="/winner">
-                    <Button className='history-btn' variant="outline-dark">Finally</Button>
+                    <Button className='result-page-header-button' variant="outline-dark">Finally</Button>
                 </Link>
             </div>
+            <hr></hr>
             <Form.Control
                 value={search}
                 type="text"
@@ -31,7 +32,7 @@ const Result = () => {
                 className="history-search"
                 onChange={(e) => setSearch(e.target.value)}
             />
-            <Table striped bordered hover>
+            <Table className='result-table' striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>Player Name</th>
@@ -60,14 +61,14 @@ const Result = () => {
                                     ))}
                                 </td>
                                 <td>{result.score}</td>
-                                <td>10s</td>
+                                <td>{result.time.reduce((a, b) => a + b)}</td>
                             </tr>
                         ))
                     }
                 </tbody>
 
             </Table>
-        </>
+        </div>
     )
 }
 

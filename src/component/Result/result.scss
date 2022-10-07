@@ -1,8 +1,26 @@
-Table {
-  margin-top: 20px;
-}
+.result-page {
+  min-width: 800px;
+  display: flex;
+  flex-direction: column;
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .history-search {
+    display: flex;
+    width: 200px;
+    margin: 20px;
+  }
 
-.history-search {
-  width: 200px;
-  margin-top: 20px;
+  .result-table {
+    font-size: 20px;
+    thead {
+      tr {
+        th {
+          font-size: 30px !important;
+        }
+      }
+    }
+  }
 }
