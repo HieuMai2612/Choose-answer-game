@@ -25,7 +25,6 @@ const CreateGame = () => {
 
     const handleChange = (event) => {
         setName(event.target.value);
-        console.log(name)
     }
 
     const handleChangeP2 = (event) => {
