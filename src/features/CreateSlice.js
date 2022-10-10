@@ -22,6 +22,18 @@ export const counterSlice = createSlice({
     name: "counter",
     initialState,
     reducers: {
+        resetLocal: (state, action) => {
+            state.name1 = "";
+            state.name2 = "";
+            state.questions = [];
+            state.questionCount = 2;
+            state.results = {};
+            state.playerCount = 0;
+            state.indexQuestion = 0;
+            state.getPlayer = [];
+            state.totalTime = [];
+            state.time = 5;
+        },
         saveName1: (state, action) => {
             state.name1 = action.payload;
         },
@@ -95,17 +107,18 @@ export const {
     savePlayers,
     nextPlayer,
     countQuestion,
-    getTotalTime } = counterSlice.actions;
-export const name1 = (state) => state.counter.name1;
-export const name2 = (state) => state.counter.name2;
-export const questions = (state) => state.counter.questions;
-export const questionCount = (state) => state.counter.questionCount;
-export const playerCount = (state) => state.counter.playerCount;
-export const indexQuestion = (state) => state.counter.indexQuestion;
-export const getPlayer = (state) => state.counter.getPlayer;
-export const results = (state) => state.counter.results;
-export const totalTime = (state) => state.counter.totalTime;
-export const time = (state) => state.counter.time;
+    getTotalTime,
+    resetLocal } = counterSlice.actions;
+export const name1 = (state) => state.counter.counter.name1;
+export const name2 = (state) => state.counter.counter.name2;
+export const questions = (state) => state.counter.counter.questions;
+export const questionCount = (state) => state.counter.counter.questionCount;
+export const playerCount = (state) => state.counter.counter.playerCount;
+export const indexQuestion = (state) => state.counter.counter.indexQuestion;
+export const getPlayer = (state) => state.counter.counter.getPlayer;
+export const results = (state) => state.counter.counter.results;
+export const totalTime = (state) => state.counter.counter.totalTime;
+export const time = (state) => state.counter.counter.time;
 
 
 export default counterSlice.reducer;
